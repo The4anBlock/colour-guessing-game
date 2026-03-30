@@ -23,14 +23,81 @@
       padding: 2rem;
     }
 
+    /* ── Shared screen hiding ── */
+    .screen { display: none; flex-direction: column; align-items: center; }
+    .screen.active { display: flex; }
+
+    /* ── Start screen ── */
+    #start-screen {
+      gap: 1.5rem;
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+    }
+
+    #start-screen h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.03em;
+      margin-bottom: 0;
+    }
+
+    #start-screen p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .difficulty-btn {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border: 2px solid transparent;
+      border-radius: 14px;
+      background: #1e1e1e;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s, border-color 0.15s, transform 0.12s;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .difficulty-btn:hover  { background: #2a2a2a; transform: scale(1.02); }
+    .difficulty-btn:active { transform: scale(0.98); }
+
+    .difficulty-btn.easy   { border-color: #4ade80; }
+    .difficulty-btn.medium { border-color: #facc15; }
+    .difficulty-btn.hard   { border-color: #f87171; }
+
+    .diff-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .diff-text { display: flex; flex-direction: column; gap: 2px; }
+
+    .diff-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .diff-desc {
+      font-size: 0.78rem;
+      color: #666;
+      line-height: 1.4;
+    }
+
     /* ── HUD ── */
     #hud {
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      max-width: 480px;
-      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-bottom: 1.5rem;
     }
 
     .hud-block {
@@ -61,30 +128,40 @@
       line-height: 1;
     }
 
-    /* ── Game ── */
-    h1 {
+    /* ── Game screen ── */
+    #game-screen { gap: 0; width: 100%; max-width: 600px; }
+
+    #game-screen h1 {
       font-size: 1.1rem;
       font-weight: 400;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: #888;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
 
     #rgb-display {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 700;
       letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.3rem;
       color: #ffffff;
+    }
+
+    #colour-name-hint {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #facc15;
+      height: 1.4rem;
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.04em;
     }
 
     #message {
       font-size: 1rem;
       height: 1.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       font-weight: 500;
-      transition: opacity 0.3s;
     }
 
     #message.correct { color: #4ade80; }
@@ -95,7 +172,17 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
       width: 100%;
-      max-width: 480px;
+    }
+
+    #swatches.easy {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 450px;
+    }
+
+    #swatches.easy .swatch {
+      aspect-ratio: unset;
+      height: 125px;
+      border-radius: 16px;
     }
 
     .swatch {
@@ -106,11 +193,7 @@
       transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .swatch:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    }
-
+    .swatch:hover  { transform: scale(1.05); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
     .swatch:active { transform: scale(0.97); }
 
     .swatch.correct-swatch {
@@ -123,11 +206,17 @@
       box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.3);
     }
 
+    #difficulty-badge {
+      margin-top: 1.2rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #444;
+    }
+
     /* ── Game Over ── */
     #game-over {
-      display: none;
-      flex-direction: column;
-      align-items: center;
       gap: 1.2rem;
       text-align: center;
     }
@@ -139,10 +228,7 @@
       letter-spacing: 0.05em;
     }
 
-    #game-over p {
-      font-size: 1rem;
-      color: #888;
-    }
+    #game-over p { font-size: 1rem; color: #888; }
 
     #final-score {
       font-size: 3.5rem;
@@ -151,29 +237,76 @@
       line-height: 1;
     }
 
-    #play-again {
-      margin-top: 0.5rem;
+    .game-over-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 280px;
+    }
+
+    .action-btn {
       padding: 0.75rem 2.5rem;
       font-size: 1rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      background: #4ade80;
-      color: #121212;
       border: none;
       border-radius: 999px;
       cursor: pointer;
       transition: transform 0.15s ease, background 0.15s ease;
     }
 
+    #play-again {
+      background: #4ade80;
+      color: #121212;
+    }
     #play-again:hover  { background: #86efac; transform: scale(1.04); }
-    #play-again:active { transform: scale(0.97); }
+
+    #change-difficulty {
+      background: #1e1e1e;
+      color: #aaa;
+      border: 2px solid #333;
+    }
+    #change-difficulty:hover { background: #2a2a2a; transform: scale(1.04); }
+
+    .action-btn:active { transform: scale(0.97); }
   </style>
 </head>
 <body>
 
+  <!-- Start / difficulty screen -->
+  <div id="start-screen" class="screen active">
+    <h1>Colour Guess</h1>
+    <p>Pick a difficulty to start</p>
+
+    <button class="difficulty-btn easy" data-diff="easy">
+      <span class="diff-icon">🟢</span>
+      <span class="diff-text">
+        <span class="diff-name">Easy</span>
+        <span class="diff-desc">RGB value + colour name hint. Only 3 swatches to choose from.</span>
+      </span>
+    </button>
+
+    <button class="difficulty-btn medium" data-diff="medium">
+      <span class="diff-icon">🟡</span>
+      <span class="diff-text">
+        <span class="diff-name">Medium</span>
+        <span class="diff-desc">RGB value only. Swatches are random.</span>
+      </span>
+    </button>
+
+    <button class="difficulty-btn hard" data-diff="hard">
+      <span class="diff-icon">🔴</span>
+      <span class="diff-text">
+        <span class="diff-name">Hard</span>
+        <span class="diff-desc">RGB value only. Swatches are very close to the correct colour.</span>
+      </span>
+    </button>
+  </div>
+
   <!-- Game screen -->
-  <div id="game-screen">
+  <div id="game-screen" class="screen">
     <div id="hud">
       <div class="hud-block">
         <span class="hud-label">Score</span>
@@ -191,19 +324,67 @@
 
     <h1>Guess the Colour</h1>
     <div id="rgb-display"></div>
+    <div id="colour-name-hint"></div>
     <div id="message"></div>
     <div id="swatches"></div>
+    <div id="difficulty-badge"></div>
   </div>
 
   <!-- Game over screen -->
-  <div id="game-over">
+  <div id="game-over" class="screen">
     <h2>Game Over</h2>
     <p>Your final score</p>
     <div id="final-score"></div>
-    <button id="play-again">Play Again</button>
+    <div class="game-over-btns">
+      <button class="action-btn" id="play-again">Play Again</button>
+      <button class="action-btn" id="change-difficulty">Change Difficulty</button>
+    </div>
   </div>
 
   <script>
+    // ── Named colours for Easy mode ──
+    const NAMED_COLOURS = [
+      { name: 'Crimson',       rgb: [220, 20,  60]  },
+      { name: 'Tomato',        rgb: [255, 99,  71]  },
+      { name: 'Coral',         rgb: [255, 127, 80]  },
+      { name: 'Orange',        rgb: [255, 165, 0]   },
+      { name: 'Gold',          rgb: [255, 215, 0]   },
+      { name: 'Yellow',        rgb: [255, 255, 0]   },
+      { name: 'Chartreuse',    rgb: [127, 255, 0]   },
+      { name: 'Lime',          rgb: [0,   255, 0]   },
+      { name: 'Mint',          rgb: [62,  180, 137] },
+      { name: 'Teal',          rgb: [0,   128, 128] },
+      { name: 'Cyan',          rgb: [0,   255, 255] },
+      { name: 'Sky Blue',      rgb: [135, 206, 235] },
+      { name: 'Dodger Blue',   rgb: [30,  144, 255] },
+      { name: 'Royal Blue',    rgb: [65,  105, 225] },
+      { name: 'Navy',          rgb: [0,   0,   128] },
+      { name: 'Indigo',        rgb: [75,  0,   130] },
+      { name: 'Violet',        rgb: [238, 130, 238] },
+      { name: 'Magenta',       rgb: [255, 0,   255] },
+      { name: 'Hot Pink',      rgb: [255, 105, 180] },
+      { name: 'Deep Pink',     rgb: [255, 20,  147] },
+      { name: 'Salmon',        rgb: [250, 128, 114] },
+      { name: 'Sienna',        rgb: [160, 82,  45]  },
+      { name: 'Chocolate',     rgb: [210, 105, 30]  },
+      { name: 'Peru',          rgb: [205, 133, 63]  },
+      { name: 'Tan',           rgb: [210, 180, 140] },
+      { name: 'Khaki',         rgb: [240, 230, 140] },
+      { name: 'Olive',         rgb: [128, 128, 0]   },
+      { name: 'Forest Green',  rgb: [34,  139, 34]  },
+      { name: 'Sea Green',     rgb: [46,  139, 87]  },
+      { name: 'Steel Blue',    rgb: [70,  130, 180] },
+      { name: 'Slate Blue',    rgb: [106, 90,  205] },
+      { name: 'Orchid',        rgb: [218, 112, 214] },
+      { name: 'Plum',          rgb: [221, 160, 221] },
+      { name: 'Lavender',      rgb: [230, 230, 250] },
+      { name: 'White',         rgb: [255, 255, 255] },
+      { name: 'Silver',        rgb: [192, 192, 192] },
+      { name: 'Gray',          rgb: [128, 128, 128] },
+    ];
+
+    // ── State ──
+    let difficulty = 'medium';
     let correctIndex = -1;
     let score = 0;
     let lives = 3;
@@ -213,36 +394,53 @@
     const LIFE_FULL  = '♥';
     const LIFE_EMPTY = '♡';
 
-    function randomChannel() {
-      return Math.floor(Math.random() * 256);
+    // ── Colour helpers ──
+    function randomChannel() { return Math.floor(Math.random() * 256); }
+    function randomColour()  { return [randomChannel(), randomChannel(), randomChannel()]; }
+    function clamp(v)        { return Math.max(0, Math.min(255, v)); }
+    function toRgbString([r, g, b]) { return `rgb(${r}, ${g}, ${b})`; }
+
+    function nearColour([r, g, b], spread) {
+      const delta = () => Math.round((Math.random() - 0.5) * 2 * spread);
+      let near;
+      do {
+        near = [clamp(r + delta()), clamp(g + delta()), clamp(b + delta())];
+      } while (near[0] === r && near[1] === g && near[2] === b);
+      return near;
     }
 
-    function randomColour() {
-      return [randomChannel(), randomChannel(), randomChannel()];
-    }
+    // ── Round logic ──
+    function buildRound() {
+      let correct, colourName;
 
-    function toRgbString([r, g, b]) {
-      return `rgb(${r}, ${g}, ${b})`;
-    }
+      if (difficulty === 'easy') {
+        const entry = NAMED_COLOURS[Math.floor(Math.random() * NAMED_COLOURS.length)];
+        correct    = entry.rgb;
+        colourName = entry.name;
+      } else {
+        correct    = randomColour();
+        colourName = null;
+      }
 
-    function updateHUD() {
-      document.getElementById('score-value').textContent = score;
-      document.getElementById('round-value').textContent = round;
-      document.getElementById('lives-display').textContent =
-        LIFE_FULL.repeat(lives) + LIFE_EMPTY.repeat(3 - lives);
+      const count = difficulty === 'easy' ? 3 : 6;
+      correctIndex = Math.floor(Math.random() * count);
+      const spread = difficulty === 'hard' ? 30 : 256;
+
+      const colours = Array.from({ length: count }, (_, i) =>
+        i === correctIndex ? correct : nearColour(correct, spread)
+      );
+
+      return { correct, colourName, colours };
     }
 
     function newRound() {
       answered = false;
-
-      const correct = randomColour();
-      correctIndex = Math.floor(Math.random() * 6);
-
-      const colours = Array.from({ length: 6 }, (_, i) =>
-        i === correctIndex ? correct : randomColour()
-      );
+      const { correct, colourName, colours } = buildRound();
 
       document.getElementById('rgb-display').textContent = toRgbString(correct);
+
+      const hint = document.getElementById('colour-name-hint');
+      hint.textContent = colourName ? colourName : '';
 
       const msg = document.getElementById('message');
       msg.textContent = '';
@@ -250,6 +448,7 @@
 
       const container = document.getElementById('swatches');
       container.innerHTML = '';
+      container.className = difficulty === 'easy' ? 'easy' : '';
 
       colours.forEach((colour, i) => {
         const swatch = document.createElement('div');
@@ -283,34 +482,55 @@
         msg.textContent = '✗ Wrong, try again!';
         msg.className = 'wrong';
         updateHUD();
-
-        if (lives === 0) {
-          setTimeout(showGameOver, 800);
-        }
+        if (lives === 0) setTimeout(showGameOver, 800);
       }
     }
 
-    function showGameOver() {
-      document.getElementById('game-screen').style.display = 'none';
-      const go = document.getElementById('game-over');
-      go.style.display = 'flex';
-      document.getElementById('final-score').textContent = score;
+    // ── HUD ──
+    function updateHUD() {
+      document.getElementById('score-value').textContent = score;
+      document.getElementById('round-value').textContent = round;
+      document.getElementById('lives-display').textContent =
+        LIFE_FULL.repeat(lives) + LIFE_EMPTY.repeat(3 - lives);
     }
 
-    function resetGame() {
+    // ── Screen transitions ──
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function startGame(diff) {
+      difficulty = diff;
       score = 0;
       lives = 3;
       round = 1;
       answered = false;
 
-      document.getElementById('game-over').style.display = 'none';
-      document.getElementById('game-screen').style.display = 'block';
+      const labels = { easy: '🟢 Easy', medium: '🟡 Medium', hard: '🔴 Hard' };
+      document.getElementById('difficulty-badge').textContent = labels[diff];
+
+      showScreen('game-screen');
       newRound();
     }
 
-    document.getElementById('play-again').addEventListener('click', resetGame);
+    function showGameOver() {
+      document.getElementById('final-score').textContent = score;
+      showScreen('game-over');
+    }
 
-    newRound();
+    // ── Event listeners ──
+    document.querySelectorAll('.difficulty-btn').forEach(btn => {
+      btn.addEventListener('click', () => startGame(btn.dataset.diff));
+    });
+
+    document.getElementById('play-again').addEventListener('click', () => {
+      startGame(difficulty);
+    });
+
+    document.getElementById('change-difficulty').addEventListener('click', () => {
+      showScreen('start-screen');
+    });
   </script>
 
 </body>
