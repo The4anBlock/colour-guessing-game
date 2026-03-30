@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colour Guessing Game</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 1rem;
+    }
+
+    #rgb-display {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    #message {
+      font-size: 1rem;
+      height: 1.5rem;
+      margin-bottom: 2rem;
+      font-weight: 500;
+      transition: opacity 0.3s;
+    }
+
+    #message.correct {
+      color: #4ade80;
+    }
+
+    #message.wrong {
+      color: #f87171;
+    }
+
+    #swatches {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .swatch {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .swatch:active {
+      transform: scale(0.97);
+    }
+
+    .swatch.correct-swatch {
+      border-color: #4ade80;
+      box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.3);
+    }
+
+    .swatch.wrong-swatch {
+      border-color: #f87171;
+      box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.3);
+    }
+
+    #score {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #666;
+      letter-spacing: 0.05em;
+    }
+
+    #score span {
+      color: #aaa;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Guess the Colour</h1>
+  <div id="rgb-display"></div>
+  <div id="message"></div>
+  <div id="swatches"></div>
+  <div id="score">Score: <span id="score-value">0</span> &nbsp;|&nbsp; Round: <span id="round-value">1</span></div>
+
+  <script>
+    let correctIndex = -1;
+    let score = 0;
+    let round = 1;
+    let answered = false;
+
+    function randomChannel() {
+      return Math.floor(Math.random() * 256);
+    }
+
+    function randomColour() {
+      return [randomChannel(), randomChannel(), randomChannel()];
+    }
+
+    function toRgbString([r, g, b]) {
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function newRound() {
+      answered = false;
+
+      const correct = randomColour();
+      correctIndex = Math.floor(Math.random() * 6);
+
+      const colours = Array.from({ length: 6 }, (_, i) =>
+        i === correctIndex ? correct : randomColour()
+      );
+
+      document.getElementById('rgb-display').textContent = toRgbString(correct);
+
+      const msg = document.getElementById('message');
+      msg.textContent = '';
+      msg.className = '';
+
+      const container = document.getElementById('swatches');
+      container.innerHTML = '';
+
+      colours.forEach((colour, i) => {
+        const swatch = document.createElement('div');
+        swatch.className = 'swatch';
+        swatch.style.backgroundColor = toRgbString(colour);
+        swatch.addEventListener('click', () => handleGuess(i, swatch));
+        container.appendChild(swatch);
+      });
+
+      document.getElementById('round-value').textContent = round;
+    }
+
+    function handleGuess(index, swatch) {
+      if (answered) return;
+
+      const msg = document.getElementById('message');
+
+      if (index === correctIndex) {
+        answered = true;
+        score++;
+        round++;
+        swatch.classList.add('correct-swatch');
+        msg.textContent = '✓ Correct!';
+        msg.className = 'correct';
+        document.getElementById('score-value').textContent = score;
+        setTimeout(newRound, 1200);
+      } else {
+        swatch.classList.add('wrong-swatch');
+        swatch.style.pointerEvents = 'none';
+        msg.textContent = '✗ Wrong, try again!';
+        msg.className = 'wrong';
+      }
+    }
+
+    newRound();
+  </script>
+
+</body>
+</html>
