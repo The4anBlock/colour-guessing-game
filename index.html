@@ -479,10 +479,22 @@
         lives--;
         swatch.classList.add('wrong-swatch');
         swatch.style.pointerEvents = 'none';
-        msg.textContent = '✗ Wrong, try again!';
-        msg.className = 'wrong';
         updateHUD();
-        if (lives === 0) setTimeout(showGameOver, 800);
+
+        if (lives === 0) {
+          msg.textContent = '✗ Wrong, try again!';
+          msg.className = 'wrong';
+          const swatches = document.querySelectorAll('.swatch');
+          swatches.forEach(s => s.style.pointerEvents = 'none');
+          setTimeout(() => {
+            msg.textContent = '✗ Wrong — here\'s the correct colour!';
+            swatches[correctIndex].classList.add('correct-swatch');
+          }, 1000);
+          setTimeout(showGameOver, 3000);
+        } else {
+          msg.textContent = '✗ Wrong, try again!';
+          msg.className = 'wrong';
+        }
       }
     }
 
