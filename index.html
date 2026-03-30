@@ -23,6 +23,45 @@
       padding: 2rem;
     }
 
+    /* ── HUD ── */
+    #hud {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 2rem;
+    }
+
+    .hud-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .hud-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+    }
+
+    .hud-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+    }
+
+    #lives-display {
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+
+    /* ── Game ── */
     h1 {
       font-size: 1.1rem;
       font-weight: 400;
@@ -48,13 +87,8 @@
       transition: opacity 0.3s;
     }
 
-    #message.correct {
-      color: #4ade80;
-    }
-
-    #message.wrong {
-      color: #f87171;
-    }
+    #message.correct { color: #4ade80; }
+    #message.wrong   { color: #f87171; }
 
     #swatches {
       display: grid;
@@ -77,9 +111,7 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
 
-    .swatch:active {
-      transform: scale(0.97);
-    }
+    .swatch:active { transform: scale(0.97); }
 
     .swatch.correct-swatch {
       border-color: #4ade80;
@@ -91,32 +123,95 @@
       box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.3);
     }
 
-    #score {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #666;
+    /* ── Game Over ── */
+    #game-over {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      text-align: center;
+    }
+
+    #game-over h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #f87171;
       letter-spacing: 0.05em;
     }
 
-    #score span {
-      color: #aaa;
-      font-weight: 600;
+    #game-over p {
+      font-size: 1rem;
+      color: #888;
     }
+
+    #final-score {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+    }
+
+    #play-again {
+      margin-top: 0.5rem;
+      padding: 0.75rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #4ade80;
+      color: #121212;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    #play-again:hover  { background: #86efac; transform: scale(1.04); }
+    #play-again:active { transform: scale(0.97); }
   </style>
 </head>
 <body>
 
-  <h1>Guess the Colour</h1>
-  <div id="rgb-display"></div>
-  <div id="message"></div>
-  <div id="swatches"></div>
-  <div id="score">Score: <span id="score-value">0</span> &nbsp;|&nbsp; Round: <span id="round-value">1</span></div>
+  <!-- Game screen -->
+  <div id="game-screen">
+    <div id="hud">
+      <div class="hud-block">
+        <span class="hud-label">Score</span>
+        <span class="hud-value" id="score-value">0</span>
+      </div>
+      <div class="hud-block">
+        <span class="hud-label">Lives</span>
+        <span id="lives-display"></span>
+      </div>
+      <div class="hud-block">
+        <span class="hud-label">Round</span>
+        <span class="hud-value" id="round-value">1</span>
+      </div>
+    </div>
+
+    <h1>Guess the Colour</h1>
+    <div id="rgb-display"></div>
+    <div id="message"></div>
+    <div id="swatches"></div>
+  </div>
+
+  <!-- Game over screen -->
+  <div id="game-over">
+    <h2>Game Over</h2>
+    <p>Your final score</p>
+    <div id="final-score"></div>
+    <button id="play-again">Play Again</button>
+  </div>
 
   <script>
     let correctIndex = -1;
     let score = 0;
+    let lives = 3;
     let round = 1;
     let answered = false;
+
+    const LIFE_FULL  = '♥';
+    const LIFE_EMPTY = '♡';
 
     function randomChannel() {
       return Math.floor(Math.random() * 256);
@@ -128,6 +223,13 @@
 
     function toRgbString([r, g, b]) {
       return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function updateHUD() {
+      document.getElementById('score-value').textContent = score;
+      document.getElementById('round-value').textContent = round;
+      document.getElementById('lives-display').textContent =
+        LIFE_FULL.repeat(lives) + LIFE_EMPTY.repeat(3 - lives);
     }
 
     function newRound() {
@@ -157,7 +259,7 @@
         container.appendChild(swatch);
       });
 
-      document.getElementById('round-value').textContent = round;
+      updateHUD();
     }
 
     function handleGuess(index, swatch) {
@@ -167,20 +269,46 @@
 
       if (index === correctIndex) {
         answered = true;
-        score++;
+        score += 10;
         round++;
         swatch.classList.add('correct-swatch');
         msg.textContent = '✓ Correct!';
         msg.className = 'correct';
-        document.getElementById('score-value').textContent = score;
+        updateHUD();
         setTimeout(newRound, 1200);
       } else {
+        lives--;
         swatch.classList.add('wrong-swatch');
         swatch.style.pointerEvents = 'none';
         msg.textContent = '✗ Wrong, try again!';
         msg.className = 'wrong';
+        updateHUD();
+
+        if (lives === 0) {
+          setTimeout(showGameOver, 800);
+        }
       }
     }
+
+    function showGameOver() {
+      document.getElementById('game-screen').style.display = 'none';
+      const go = document.getElementById('game-over');
+      go.style.display = 'flex';
+      document.getElementById('final-score').textContent = score;
+    }
+
+    function resetGame() {
+      score = 0;
+      lives = 3;
+      round = 1;
+      answered = false;
+
+      document.getElementById('game-over').style.display = 'none';
+      document.getElementById('game-screen').style.display = 'block';
+      newRound();
+    }
+
+    document.getElementById('play-again').addEventListener('click', resetGame);
 
     newRound();
   </script>
