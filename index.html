@@ -215,7 +215,216 @@
       color: #444;
     }
 
-    /* ── Game Over ── */
+    /* ── Sidebar toggle button ── */
+    #sidebar-toggle {
+      position: fixed;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      background: #1e1e1e;
+      border: 2px solid #333;
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+      color: #aaa;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      padding: 1rem 0.5rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      display: none;
+      z-index: 100;
+    }
+
+    #sidebar-toggle:hover { background: #2a2a2a; color: #fff; }
+    #sidebar-toggle.visible { display: block; }
+    #sidebar-toggle.open { left: 240px; border-left: 2px solid #333; border-right: none; border-radius: 0 10px 10px 0; }
+
+    /* ── Reference sidebar ── */
+    #ref-sidebar {
+      position: fixed;
+      top: 0;
+      left: -240px;
+      width: 240px;
+      height: 100vh;
+      background: #181818;
+      border-right: 2px solid #2a2a2a;
+      overflow: hidden;
+      padding: 1rem;
+      transition: left 0.3s ease;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      gap: 0;
+    }
+
+    #ref-sidebar.open { left: 0; }
+
+    #ref-sidebar h2 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .ref-channel {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .ref-channel-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .ref-channel-label.red   { color: #f87171; }
+    .ref-channel-label.green { color: #4ade80; }
+    .ref-channel-label.blue  { color: #60a5fa; }
+
+    .ref-swatches {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .ref-swatch-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ref-swatch {
+      width: 37px;
+      height: 37px;
+      border-radius: 5px;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.05);
+    }
+
+    .ref-swatch-label {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0 6px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ref-swatch-label .ch-header {
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: #888;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+
+    .ref-swatch-label .ch-value {
+      font-size: 0.72rem;
+      color: #fff;
+      text-align: center;
+    }
+
+    /* ── Mixing sidebar toggle button ── */
+    #mix-toggle {
+      position: fixed;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      background: #1e1e1e;
+      border: 2px solid #333;
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+      color: #aaa;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      padding: 1rem 0.5rem;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      display: none;
+      z-index: 100;
+    }
+
+    #mix-toggle:hover { background: #2a2a2a; color: #fff; }
+    #mix-toggle.visible { display: block; }
+    #mix-toggle.open { right: 220px; border-right: 2px solid #333; border-left: none; border-radius: 10px 0 0 10px; }
+
+    /* ── Mixing sidebar ── */
+    #mix-sidebar {
+      position: fixed;
+      top: 0;
+      right: -220px;
+      width: 220px;
+      height: 100vh;
+      background: #181818;
+      border-left: 2px solid #2a2a2a;
+      overflow: hidden;
+      padding: 1rem;
+      transition: right 0.3s ease;
+      z-index: 99;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0;
+    }
+
+    #mix-sidebar.open { right: 0; }
+
+    #mix-sidebar h2 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .mix-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 1rem 0;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .mix-row:last-child {
+      border-bottom: none;
+    }
+
+    .mix-swatch {
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      border: 2px solid rgba(255,255,255,0.07);
+      flex-shrink: 0;
+    }
+
+    .mix-op {
+      font-size: 0.8rem;
+      color: #555;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .mix-result-label {
+      font-size: 0.72rem;
+      color: #fff;
+      margin-left: 2px;
+    }
+
+/* ── Game Over ── */
     #game-over {
       gap: 1.2rem;
       text-align: center;
@@ -274,6 +483,39 @@
   </style>
 </head>
 <body>
+
+  <!-- Reference sidebar (Easy + Medium only) -->
+  <div id="ref-sidebar">
+    <h2>Colour Reference</h2>
+
+    <div class="ref-channel">
+      <span class="ref-channel-label red">Red</span>
+      <div class="ref-swatches" id="ref-red"></div>
+    </div>
+
+    <div class="ref-channel">
+      <span class="ref-channel-label green">Green</span>
+      <div class="ref-swatches" id="ref-green"></div>
+    </div>
+
+    <div class="ref-channel">
+      <span class="ref-channel-label blue">Blue</span>
+      <div class="ref-swatches" id="ref-blue"></div>
+    </div>
+
+  </div>
+
+  <!-- Sidebar toggle tab -->
+  <button id="sidebar-toggle">Reference</button>
+
+  <!-- Mixing sidebar (Easy + Medium only) -->
+  <div id="mix-sidebar">
+    <h2>Colour Mixing</h2>
+    <div id="mix-rows"></div>
+  </div>
+
+  <!-- Mixing sidebar toggle tab -->
+  <button id="mix-toggle">Mixing</button>
 
   <!-- Start / difficulty screen -->
   <div id="start-screen" class="screen active">
@@ -382,6 +624,138 @@
       { name: 'Silver',        rgb: [192, 192, 192] },
       { name: 'Gray',          rgb: [128, 128, 128] },
     ];
+
+    // ── Reference sidebar intervals ──
+    const REF_INTERVALS = [50, 100, 150, 200, 250];
+
+    function buildSidebar() {
+      const channels = [
+        { id: 'ref-red',   fn: v => [v, 0, 0] },
+        { id: 'ref-green', fn: v => [0, v, 0] },
+        { id: 'ref-blue',  fn: v => [0, 0, v] },
+      ];
+
+      channels.forEach(({ id, fn }) => {
+        const container = document.getElementById(id);
+        container.innerHTML = '';
+        REF_INTERVALS.forEach(val => {
+          const [r, g, b] = fn(val);
+          const row = document.createElement('div');
+          row.className = 'ref-swatch-row';
+
+          const swatch = document.createElement('div');
+          swatch.className = 'ref-swatch';
+          swatch.style.backgroundColor = `rgb(${r},${g},${b})`;
+
+          const label = document.createElement('div');
+          label.className = 'ref-swatch-label';
+          ['R', 'G', 'B'].forEach(ch => {
+            const h = document.createElement('span');
+            h.className = 'ch-header';
+            h.textContent = ch;
+            label.appendChild(h);
+          });
+          [r, g, b].forEach(v => {
+            const s = document.createElement('span');
+            s.className = 'ch-value';
+            s.textContent = v;
+            label.appendChild(s);
+          });
+
+          row.appendChild(swatch);
+          row.appendChild(label);
+          container.appendChild(row);
+        });
+      });
+    }
+
+    buildSidebar();
+
+
+    // ── Reference sidebar toggle ──
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const refSidebar    = document.getElementById('ref-sidebar');
+    let sidebarOpen = false;
+
+    sidebarToggle.addEventListener('click', () => {
+      sidebarOpen = !sidebarOpen;
+      refSidebar.classList.toggle('open', sidebarOpen);
+      sidebarToggle.classList.toggle('open', sidebarOpen);
+      sidebarToggle.textContent = sidebarOpen ? 'Close' : 'Reference';
+    });
+
+    function setSidebarVisible(visible) {
+      sidebarToggle.classList.toggle('visible', visible);
+      mixToggle.classList.toggle('visible', visible);
+      if (!visible) {
+        sidebarOpen = false;
+        refSidebar.classList.remove('open');
+        sidebarToggle.classList.remove('open');
+        sidebarToggle.textContent = 'Reference';
+        mixOpen = false;
+        mixSidebar.classList.remove('open');
+        mixToggle.classList.remove('open');
+        mixToggle.textContent = 'Mixing';
+      }
+    }
+
+    // ── Mixing sidebar toggle ──
+    const mixToggle  = document.getElementById('mix-toggle');
+    const mixSidebar = document.getElementById('mix-sidebar');
+    let mixOpen = false;
+
+    mixToggle.addEventListener('click', () => {
+      mixOpen = !mixOpen;
+      mixSidebar.classList.toggle('open', mixOpen);
+      mixToggle.classList.toggle('open', mixOpen);
+      mixToggle.textContent = mixOpen ? 'Close' : 'Mixing';
+    });
+
+    // ── Build mixing rows ──
+    const MIXES = [
+      { inputs: [[255,0,0],[0,255,0]],            result: [255,255,0],   name: 'Yellow'  },
+      { inputs: [[255,0,0],[0,0,255]],            result: [255,0,255],   name: 'Magenta' },
+      { inputs: [[0,255,0],[0,0,255]],            result: [0,255,255],   name: 'Cyan'    },
+      { inputs: [[255,0,0],[0,255,0],[0,0,255]],  result: [255,255,255], name: 'White'   },
+    ];
+
+    (function buildMixing() {
+      const container = document.getElementById('mix-rows');
+      MIXES.forEach(({ inputs, result, name }) => {
+        const row = document.createElement('div');
+        row.className = 'mix-row';
+
+        inputs.forEach((col, i) => {
+          if (i > 0) {
+            const plus = document.createElement('span');
+            plus.className = 'mix-op';
+            plus.textContent = '+';
+            row.appendChild(plus);
+          }
+          const s = document.createElement('div');
+          s.className = 'mix-swatch';
+          s.style.backgroundColor = `rgb(${col.join(',')})`;
+          row.appendChild(s);
+        });
+
+        const eq = document.createElement('span');
+        eq.className = 'mix-op';
+        eq.textContent = '=';
+        row.appendChild(eq);
+
+        const res = document.createElement('div');
+        res.className = 'mix-swatch';
+        res.style.backgroundColor = `rgb(${result.join(',')})`;
+        row.appendChild(res);
+
+        const lbl = document.createElement('span');
+        lbl.className = 'mix-result-label';
+        lbl.textContent = name;
+        row.appendChild(lbl);
+
+        container.appendChild(row);
+      });
+    })();
 
     // ── State ──
     let difficulty = 'medium';
@@ -522,11 +896,14 @@
       const labels = { easy: '🟢 Easy', medium: '🟡 Medium', hard: '🔴 Hard' };
       document.getElementById('difficulty-badge').textContent = labels[diff];
 
+      setSidebarVisible(diff === 'easy' || diff === 'medium');
+
       showScreen('game-screen');
       newRound();
     }
 
     function showGameOver() {
+      setSidebarVisible(false);
       document.getElementById('final-score').textContent = score;
       showScreen('game-over');
     }
@@ -541,6 +918,7 @@
     });
 
     document.getElementById('change-difficulty').addEventListener('click', () => {
+      setSidebarVisible(false);
       showScreen('start-screen');
     });
   </script>
